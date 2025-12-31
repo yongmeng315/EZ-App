@@ -66,7 +66,7 @@ class _PageWrapper extends State<PageWrapper>
         child: Material(
           elevation: 4,
           borderRadius: BorderRadius.circular(16),
-          color: Theme.of(context).drawerTheme.backgroundColor,
+          color: Theme.of(context).scaffoldBackgroundColor,
           child: AnimatedContainer(
             duration: Duration(milliseconds: 300),
             curve: Curves.linear,
@@ -122,6 +122,9 @@ class _PageWrapper extends State<PageWrapper>
                                 GoRouter.of(
                                   context,
                                 ).go(tab.values.first['route']);
+                                setState(() {
+                                  _expanded = false;
+                                });
                               },
                             );
                           },
@@ -134,7 +137,7 @@ class _PageWrapper extends State<PageWrapper>
                         margin: EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
-                          color: Theme.of(context).drawerTheme.backgroundColor,
+                          color: Theme.of(context).scaffoldBackgroundColor,
                           boxShadow: [
                             BoxShadow(
                               offset: Offset(4, 4),
@@ -169,6 +172,8 @@ class _PageWrapper extends State<PageWrapper>
                     },
                     icon: Icon(Icons.menu, size: 20),
                     style: ButtonStyle(
+
+                      backgroundColor: WidgetStatePropertyAll(Theme.of(context).scaffoldBackgroundColor),
                       iconSize: WidgetStatePropertyAll(20),
                       shape: WidgetStatePropertyAll(
                         RoundedRectangleBorder(
@@ -194,7 +199,7 @@ class _PageWrapper extends State<PageWrapper>
         animationDuration: Duration(milliseconds: 300),
         elevation: 4,
         borderRadius: BorderRadius.circular(16),
-        color: Theme.of(context).drawerTheme.backgroundColor,
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: AnimatedContainer(
           duration: Duration(milliseconds: 300),
           curve: Curves.linear,
@@ -202,7 +207,7 @@ class _PageWrapper extends State<PageWrapper>
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             shape: BoxShape.rectangle,
-            color: Theme.of(context).drawerTheme.backgroundColor,
+            color: Theme.of(context).scaffoldBackgroundColor,
           ),
           padding: EdgeInsets.all(8),
           child: _expanded
@@ -261,7 +266,7 @@ class _PageWrapper extends State<PageWrapper>
                       width: NAV_BAR_WIDTH - 8,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
-                        color: Theme.of(context).drawerTheme.backgroundColor,
+                        color: Theme.of(context).scaffoldBackgroundColor,
                         boxShadow: [
                           BoxShadow(
                             offset: Offset(4, 4),
@@ -304,6 +309,7 @@ class _PageWrapper extends State<PageWrapper>
                               GoRouter.of(
                                 context,
                               ).go(tab.values.first['route']);
+
                             },
                             icon: Icon(
                               tab.values.first['icon'],
@@ -323,7 +329,7 @@ class _PageWrapper extends State<PageWrapper>
                       width: NAV_BAR_WIDTH / 3 - 8,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
-                        color: Theme.of(context).drawerTheme.backgroundColor,
+                        color: Theme.of(context).scaffoldBackgroundColor,
                         boxShadow: [
                           BoxShadow(
                             offset: Offset(4, 4),
@@ -393,9 +399,7 @@ class _PageWrapper extends State<PageWrapper>
               key: _scaffoldKey,
               body: Container(
                 constraints: BoxConstraints(minHeight: height, minWidth: width),
-                margin: EdgeInsets.only(
-                  top: ResponsiveLayout.isSmallScreen(context) ? 48 : 0,
-                ),
+
                 color: Theme.of(context).scaffoldBackgroundColor,
                 child: widget.child,
               ),

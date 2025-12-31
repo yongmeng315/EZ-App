@@ -112,6 +112,7 @@ class ThemeManager with ChangeNotifier {
     iconTheme: IconThemeData(color: Colors.white),
     iconButtonTheme: IconButtonThemeData(
       style: ButtonStyle(
+        backgroundColor: WidgetStateProperty.all(Color(0xffF8F9FA),),
         foregroundColor: WidgetStateProperty.all(Colors.white),
         iconColor: WidgetStateProperty.all(Colors.white),
       ),
@@ -269,6 +270,7 @@ class ThemeManager with ChangeNotifier {
     iconTheme: IconThemeData(color: Colors.black),
     iconButtonTheme: IconButtonThemeData(
       style: ButtonStyle(
+        backgroundColor: WidgetStateProperty.all(Color(0xffF8F9FA),),
         foregroundColor: WidgetStateProperty.all(Colors.black),
         iconColor: WidgetStateProperty.all(Colors.black),
       ),
