@@ -1,122 +1,293 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:io';
 
-void main() {
-  runApp(const MyApp());
+
+import 'package:ezapp/pages/elec_bill_calcul.dart';
+import 'package:ezapp/utils/navigation_utils.dart';
+import 'package:ezapp/widgets/page_wrapper.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+
+import 'managers/theme_manager.dart';
+
+// void initFCM(String userId) async {
+//   NotificationSettings settings = await FirebaseMessaging.instance
+//       .requestPermission(
+//         alert: true,
+//         announcement: false,
+//         badge: true,
+//         carPlay: false,
+//         criticalAlert: false,
+//         provisional: false,
+//         sound: true,
+//       );
+//
+//   if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+//     String? token;
+//     if (Platform.isAndroid) {
+//       token = await FirebaseMessaging.instance.getToken();
+//       print('Token Android: ' + token!);
+//     }
+//     if (Platform.isIOS) {
+//       // token = await FirebaseMessaging.instance.getAPNSToken();
+//       // print('Token iOS: ' + token!);
+//     }
+//     print("FCM Token: $token");
+//
+//     if (token != null) {
+//       await FirebaseFirestore.instance.collection("users").doc(userId).update({
+//         "fcm_token": token,
+//       });
+//     }
+//   }
+// }
+
+// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//   await Firebase.initializeApp();
+//   NotificationService.showNotification(message);
+// }
+
+// late final List<CameraDescription> _cameras;
+
+void main() async {
+  // await dotenv.load(fileName: "assets/.env");
+
+  WidgetsFlutterBinding.ensureInitialized();
+  // _cameras = await availableCameras();
+  //
+  // Logger.logMap('Binding', 'INGGG');
+  //
+  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // Logger.logMap('Firebase', 'Init');
+  //
+  // await checksAuthState();
+  //
+  // await FirebaseAppCheck.instance.activate(
+  //   androidProvider: AndroidProvider.debug,
+  //   appleProvider: AppleProvider.debug,
+  // );
+  //
+  // await Future.wait([
+  //   NotificationService.initialize(),
+  //   LocalizationManager.loadLanguage(),
+  // ]);
+  //
+  // await BannerManager.fetchBanners();
+  //
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  // Logger.logMap('Run', 'Run');
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeManager()),
+        ChangeNotifierProvider(create: (_) => NavigationUtils()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
+// Future<void> checksAuthState() async {
+//   User? user = await FirebaseAuth.instance.authStateChanges().first;
+//   if (user == null) {
+//     ///No user, build Login, ensure local customer clean
+//   } else {
+//     /// has user ,check whether local customer has profile
+//     if (AuthManager.appUser == null) {
+//       DocumentSnapshot<Map<String, dynamic>> userResponse =
+//           await FirebaseFirestore.instance.doc('users/${user.uid}').get();
+//       if (userResponse.exists && userResponse.data() != null) {
+//         AuthManager.appUser = AppUser.fromDoc(userResponse.data());
+//       } else {
+//         AuthManager.appUser = null;
+//       }
+//     }
+//     try {
+//       String? token = await FirebaseMessaging.instance.getToken();
+//       print('token is');
+//       print(token);
+//       if (token != null) {
+//         await FirebaseFirestore.instance
+//             .collection("users")
+//             .doc(user.uid)
+//             .update({"fcm_token": token});
+//       }
+//
+//       FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
+//         FirebaseFirestore.instance.collection("users").doc(user.uid).update({
+//           "fcm_token": newToken,
+//         });
+//       });
+//     } catch (e) {
+//       print("Error getting FCM token: $e");
+//     }
+//   }
+// }
+
+// Future<String> _singleDeviceVerification() async {
+//   try {
+//     loading = true;
+//     String deviceId = await DeviceInfoUtils.getDeviceId();
+//     print('device id in main: ' + deviceId);
+//
+//     HttpsCallable deviceIdMatching = GeneralUtils.callable(
+//       'deviceidmatching',
+//     );
+//
+//     HttpsCallableResult deviceIdMatchingResult = await deviceIdMatching
+//         .call({'deviceId': deviceId})
+//         .catchError((err) {
+//           hasError = true;
+//           errorMessage = 'Cloud function error';
+//           throw err.toString();
+//         });
+//
+//     if (deviceIdMatchingResult.data['succeeded']) {
+//       print('No device log in cur account');
+//
+//       UserCredential credential = await GeneralUtils.firebaseAuth
+//           .signInWithCustomToken(deviceIdMatchingResult.data['message']);
+//
+//       if (credential.user != null) {
+//         print('user is found');
+//
+//         DocumentReference<Map<String, dynamic>> userDoc = GeneralUtils
+//             .firebaseFirestore
+//             .collection('users')
+//             .doc(credential.user!.uid);
+//
+//         await userDoc.update({
+//           'last_updated': Timestamp.fromDate(DateTime.now()),
+//         });
+//         DocumentSnapshot<Map<String, dynamic>> userSnap = await userDoc.get();
+//
+//         AuthManager.appUser = AppUser.fromDoc(userSnap.data());
+//
+//         if (AuthManager.appUser != null) {
+//           print('go home');
+//           loading = false;
+//           return '/home';
+//         }
+//       } else {
+//         hasError = true;
+//         errorMessage = 'User couldn\'t be found';
+//       }
+//     }
+//
+//     loading = false;
+//     return '/boarding';
+//   } catch (err) {
+//     print('Catch error');
+//     loading = false;
+//     hasError = true;
+//     errorMessage = err.toString();
+//     return '/boarding';
+//   }
+// }
+
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
+  State<MyApp> createState() => _MyAppState();
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class _MyAppState extends State<MyApp> {
+  GoRouter _goRouter() => GoRouter(
+    // navigatorKey: AuthManager.navKey,
+    debugLogDiagnostics: true,
+    redirect: (context, state) async {
+      // Logger.logMap("auth", "GO ROUTER ${state.topRoute}");
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
+      // QuerySnapshot<Map<String,dynamic>> snap6 = await FirebaseFirestore.instance.collection("orders").where('user_id',isEqualTo: "self").where("status",isEqualTo: "G").where("tm6",isGreaterThan: DateTime.now()).get();
+      // QuerySnapshot<Map<String,dynamic>> snap12 =await  FirebaseFirestore.instance.collection("orders").where('user_id',isEqualTo: "self").where("status",isEqualTo: "G").where("tm12",isGreaterThan: DateTime.now()).get();
+      // QuerySnapshot<Map<String,dynamic>> snap18 =await  FirebaseFirestore.instance.collection("orders").where('user_id',isEqualTo: "self").where("status",isEqualTo: "G").where("tm16",isGreaterThan: DateTime.now()).get();
 
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+      // List<QuerySnapshot<Map<String,dynamic>>> futures =    await Future.wait([
+      //   FirebaseFirestore.instance.collection("orders").where('user_id',isEqualTo: "self").where("status",isEqualTo: "G").where("tm6",isGreaterThan: DateTime.now()).get(),
+      //   FirebaseFirestore.instance.collection("orders").where('user_id',isEqualTo: "self").where("status",isEqualTo: "G").where("tm6",isGreaterThan: DateTime.now()).get(),
+      //   FirebaseFirestore.instance.collection("orders").where('user_id',isEqualTo: "self").where("status",isEqualTo: "G").where("tm6",isGreaterThan: DateTime.now()).get()]);
+      //
+      //
+      //
+      //
+      //
+      //   await FirebaseFirestore.instance.collection("orders").where('user_id',isEqualTo: "self").where("status",isEqualTo: "G").get();
+      //
+      //   order.tm6
+      //
 
-  final String title;
+      return null;
+    },
+    routes: [
+      ShellRoute(
+        pageBuilder: (context, state, child) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            // barrierDismissible: false,
+            barrierColor: Colors.grey,
+            opaque: true,
+            transitionDuration: Duration(milliseconds: 400),
+            reverseTransitionDuration: Duration(milliseconds: 300),
+            child: PageWrapper(child: child),
+            transitionsBuilder:
+                (
+                  BuildContext context,
+                  Animation<double> animation,
+                  Animation<double> secondaryAnimation,
+                  Widget child,
+                ) {
+                  const begin = Offset(1.0, 0.0); // from right
+                  const end = Offset.zero;
+                  const curve = Curves.easeInOut;
+
+                  var tween = Tween(
+                    begin: begin,
+                    end: end,
+                  ).chain(CurveTween(curve: curve));
+                  return SlideTransition(
+                    position: animation.drive(tween),
+                    child: child,
+                  );
+                },
+          );
+        },
+
+        routes: [
+          GoRoute(
+            path: '/elec_bill_calcul',
+            builder: (context, state) => ElecBillCalcul(),
+          ),
+
+          // GoRoute(path: '/test', builder: (context, state) => TestPage()),
+        ],
+      ),
+    ],
+    initialLocation: '/elec_bill_calcul',
+  );
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
+  void initState() {
+    super.initState();
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: .center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+    return Consumer<ThemeManager>(
+      builder: (BuildContext context, ThemeManager themeManager, _) {
+        return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          title: 'EZ App',
+          theme: themeManager.getTheme(),
+          routerConfig: _goRouter(),
+          builder: (context, child) {
+            return child!;
+          },
+        );
+      },
     );
   }
 }
