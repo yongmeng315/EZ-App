@@ -393,6 +393,9 @@ class _PageWrapper extends State<PageWrapper>
               key: _scaffoldKey,
               body: Container(
                 constraints: BoxConstraints(minHeight: height, minWidth: width),
+                margin: EdgeInsets.only(
+                  top: ResponsiveLayout.isSmallScreen(context) ? 48 : 0,
+                ),
                 color: Theme.of(context).scaffoldBackgroundColor,
                 child: widget.child,
               ),
