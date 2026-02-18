@@ -32,6 +32,7 @@ class ThemeManager with ChangeNotifier {
       headlineSmall: GoogleFonts.nunito(color: Colors.white),
       titleLarge: GoogleFonts.nunito(
         color: Colors.white,
+        fontSize: 24,
         fontWeight: FontWeight.bold,
       ),
       titleMedium: GoogleFonts.nunito(
@@ -190,14 +191,14 @@ class ThemeManager with ChangeNotifier {
       titleLarge: GoogleFonts.nunito(
         color: Colors.black,
         fontWeight: FontWeight.bold,
-        fontSize: 36,
+        fontSize: 24,
       ),
       titleMedium: GoogleFonts.nunito(
-        color: Color(0xff0080ff),
+        color: Colors.black,
         fontWeight: FontWeight.bold,
       ),
       titleSmall: GoogleFonts.nunito(
-        color: Color(0xff0080ff),
+        color: Colors.black,
         fontWeight: FontWeight.bold,
       ),
       bodyLarge: GoogleFonts.nunito(

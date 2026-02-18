@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 
-
-import 'package:ezapp/pages/elec_bill_calcul.dart';
+import 'package:ezapp/pages/elec_bill_calcul/elec_bill_calcul.dart';
+import 'package:ezapp/pages/invoice_generation.dart';
+import 'package:ezapp/pages/to_do_list/to_do_list.dart';
 import 'package:ezapp/utils/navigation_utils.dart';
 import 'package:ezapp/widgets/page_wrapper.dart';
 import 'package:flutter/material.dart';
@@ -260,18 +261,19 @@ class _MyAppState extends State<MyApp> {
             path: '/elec_bill_calcul',
             builder: (context, state) => ElecBillCalcul(),
           ),
+          GoRoute(path: '/to_do_list', builder: (context, state) => ToDoList()),
+          GoRoute(path: '/invoice_generation', builder: (context, state) => InvoiceGeneration()),
 
           // GoRoute(path: '/test', builder: (context, state) => TestPage()),
         ],
       ),
     ],
-    initialLocation: '/elec_bill_calcul',
+    initialLocation: '/invoice_generation',
   );
 
   @override
   void initState() {
     super.initState();
-
   }
 
   @override

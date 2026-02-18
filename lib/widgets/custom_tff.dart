@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CustomTff extends StatefulWidget {
+  final FocusNode? focusNode;
   final TextEditingController controller;
+  bool readOnly;
   final AutovalidateMode? autovalidateMode;
   final String? Function(String? value)? validator;
   final Function()? onTap;
@@ -22,8 +24,10 @@ class CustomTff extends StatefulWidget {
   final String? prefixText;
   final String? suffixText;
 
-  const CustomTff({
+  CustomTff({
+    this.focusNode,
     required this.controller,
+    this.readOnly = false,
     this.autovalidateMode,
     this.validator,
     this.onTap,
@@ -51,8 +55,9 @@ class _CustomTffState extends State<CustomTff> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-
+      focusNode: widget.focusNode,
       controller: widget.controller,
+      readOnly: widget.readOnly,
       autovalidateMode: widget.autovalidateMode,
       validator: widget.validator,
       onTap: widget.onTap,
@@ -63,7 +68,11 @@ class _CustomTffState extends State<CustomTff> {
       inputFormatters: widget.inputFormatters,
       keyboardType: widget.textInputType,
       textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.bodyLarge,
+      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+        color: widget.readOnly
+            ? Theme.of(context).textTheme.bodyMedium!.color!.withAlpha(100)
+            : null,
+      ),
       decoration: InputDecoration(
         label: widget.label,
         prefix: widget.prefix,
@@ -76,8 +85,38 @@ class _CustomTffState extends State<CustomTff> {
         labelStyle: Theme.of(context).textTheme.bodyMedium,
         prefixStyle: Theme.of(context).textTheme.bodyMedium,
         suffixStyle: Theme.of(context).textTheme.bodyMedium,
-        filled: false,
-        border: InputBorder.none,
+        filled: true,
+        fillColor: Theme.of(context).colorScheme.secondaryContainer,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide.none,
+          gapPadding: 4,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide.none,
+          gapPadding: 4,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide.none,
+          gapPadding: 4,
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
+          gapPadding: 4,
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
+          gapPadding: 4,
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide.none,
+          gapPadding: 4,
+        ),
       ),
     );
   }

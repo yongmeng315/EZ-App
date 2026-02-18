@@ -172,8 +172,9 @@ class _PageWrapper extends State<PageWrapper>
                     },
                     icon: Icon(Icons.menu, size: 20),
                     style: ButtonStyle(
-
-                      backgroundColor: WidgetStatePropertyAll(Theme.of(context).scaffoldBackgroundColor),
+                      backgroundColor: WidgetStatePropertyAll(
+                        Theme.of(context).scaffoldBackgroundColor,
+                      ),
                       iconSize: WidgetStatePropertyAll(20),
                       shape: WidgetStatePropertyAll(
                         RoundedRectangleBorder(
@@ -309,7 +310,6 @@ class _PageWrapper extends State<PageWrapper>
                               GoRouter.of(
                                 context,
                               ).go(tab.values.first['route']);
-
                             },
                             icon: Icon(
                               tab.values.first['icon'],
@@ -379,82 +379,109 @@ class _PageWrapper extends State<PageWrapper>
           return;
         }
       },
-      child: Stack(
-        children: [
-          // Positioned.fill(child: background()),
-          Padding(
-            padding:
-                // !GeneralUtils.firebaseAuth.currentUser!.emailVerified ||
-                //         !AuthStates.appUser!.onboarded
-                //     ? EdgeInsets.zero
-                //     :
-                // ResponsiveLayout.isLargeScreen(context)
-                // ? EdgeInsets.only(
-                //     left: (_expanded ? NAV_BAR_WIDTH : NAV_BAR_WIDTH / 3) + 16,
-                //   )
-                // :
-                EdgeInsets.zero,
-            child: Scaffold(
-              backgroundColor: Colors.transparent,
-              key: _scaffoldKey,
-              body: Container(
-                constraints: BoxConstraints(minHeight: height, minWidth: width),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        key: _scaffoldKey,
+        body: Stack(
+          children: [
+            // Positioned.fill(child: background()),
+            Padding(
+              padding:
+                  // !GeneralUtils.firebaseAuth.currentUser!.emailVerified ||
+                  //         !AuthStates.appUser!.onboarded
+                  //     ? EdgeInsets.zero
+                  //     :
+                  // ResponsiveLayout.isLargeScreen(context)
+                  // ? EdgeInsets.only(
+                  //     left: (_expanded ? NAV_BAR_WIDTH : NAV_BAR_WIDTH / 3) + 16,
+                  //   )
+                  // :
+                  EdgeInsets.zero,
+              child:  Container(
+                  constraints: BoxConstraints(minHeight: height, minWidth: width),
+                  padding: EdgeInsets.only(
+                    top: 48,
+                    left: (_expanded ? NAV_BAR_WIDTH : NAV_BAR_WIDTH / 3) + 16,
+                    right: 8
+                  ),
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  child: widget.child,
+                ),
+              ),
 
-                color: Theme.of(context).scaffoldBackgroundColor,
-                child: widget.child,
+
+            Container(
+              height: 48,
+              padding: EdgeInsets.only(
+                top: 8,
+                left: (_expanded ? NAV_BAR_WIDTH : NAV_BAR_WIDTH / 3) + 16,
+
+              ),
+              color: Theme.of(context).scaffoldBackgroundColor,
+              child: Text(
+                NavigationUtils.navigationList
+                    .firstWhere(
+                      (element) =>
+                  GoRouter.of(context).state.path ==
+                      element.values.first['route'],
+                )
+                    .keys
+                    .first,
+                style: Theme.of(context).textTheme.titleLarge!,
               ),
             ),
-          ),
 
-          _buildDrawerWidget(),
+            _buildDrawerWidget(),
 
-          // Consumer<AuthManager>(
-          //   builder: (context, authManager, child) {
-          //     return // GoRouterState.of(context).fullPath!.split('/').length == 2 &&
-          //     GoRouterState.of(context).fullPath != '/boarding' &&
-          //             GoRouterState.of(context).fullPath != '/login' &&
-          //             GoRouterState.of(context).fullPath !=
-          //                 '/registration_page' &&
-          //             GoRouterState.of(context).fullPath !=
-          //                 '/forgot_password_page' &&
-          //             GoRouterState.of(context).fullPath !=
-          //                 '/forgot_password_otp' &&
-          //             GoRouterState.of(context).fullPath !=
-          //                 '/otp_verification_page' &&
-          //             GoRouterState.of(context).fullPath !=
-          //                 '/pin_passcode_page' &&
-          //             GoRouterState.of(context).fullPath !=
-          //                 '/confirm_pin_passcode_page' &&
-          //             GoRouterState.of(context).fullPath !=
-          //                 '/signin_with_passcode_page' &&
-          //             GoRouterState.of(context).fullPath !=
-          //                 '/signin_with_faceid_page' &&
-          //             GoRouterState.of(context).fullPath !=
-          //                 '/signin_with_touchid_page' &&
-          //             GoRouterState.of(context).fullPath !=
-          //                 '/allow_faceid_page' &&
-          //             GoRouterState.of(context).fullPath !=
-          //                 '/allow_touchid_page' &&
-          //             GoRouterState.of(context).fullPath !=
-          //                 '/enter_password_page' &&
-          //             GoRouterState.of(context).fullPath !=
-          //                 '/confirm_password_page' &&
-          //             GoRouterState.of(context).fullPath != '/camera' &&
-          //             authManager.isBNBVisible
-          //         ? Positioned(
-          //             bottom: Platform.isAndroid
-          //                 ? 16
-          //                 : Platform.isIOS
-          //                 ? 0
-          //                 : 0,
-          //             right: 16,
-          //             left: 16,
-          //             child: MyBottomNavigationBar(),
-          //           )
-          //         : SizedBox();
-          //   },
-          // ),
-        ],
+
+            // Consumer<AuthManager>(
+            //   builder: (context, authManager, child) {
+            //     return // GoRouterState.of(context).fullPath!.split('/').length == 2 &&
+            //     GoRouterState.of(context).fullPath != '/boarding' &&
+            //             GoRouterState.of(context).fullPath != '/login' &&
+            //             GoRouterState.of(context).fullPath !=
+            //                 '/registration_page' &&
+            //             GoRouterState.of(context).fullPath !=
+            //                 '/forgot_password_page' &&
+            //             GoRouterState.of(context).fullPath !=
+            //                 '/forgot_password_otp' &&
+            //             GoRouterState.of(context).fullPath !=
+            //                 '/otp_verification_page' &&
+            //             GoRouterState.of(context).fullPath !=
+            //                 '/pin_passcode_page' &&
+            //             GoRouterState.of(context).fullPath !=
+            //                 '/confirm_pin_passcode_page' &&
+            //             GoRouterState.of(context).fullPath !=
+            //                 '/signin_with_passcode_page' &&
+            //             GoRouterState.of(context).fullPath !=
+            //                 '/signin_with_faceid_page' &&
+            //             GoRouterState.of(context).fullPath !=
+            //                 '/signin_with_touchid_page' &&
+            //             GoRouterState.of(context).fullPath !=
+            //                 '/allow_faceid_page' &&
+            //             GoRouterState.of(context).fullPath !=
+            //                 '/allow_touchid_page' &&
+            //             GoRouterState.of(context).fullPath !=
+            //                 '/enter_password_page' &&
+            //             GoRouterState.of(context).fullPath !=
+            //                 '/confirm_password_page' &&
+            //             GoRouterState.of(context).fullPath != '/camera' &&
+            //             authManager.isBNBVisible
+            //         ? Positioned(
+            //             bottom: Platform.isAndroid
+            //                 ? 16
+            //                 : Platform.isIOS
+            //                 ? 0
+            //                 : 0,
+            //             right: 16,
+            //             left: 16,
+            //             child: MyBottomNavigationBar(),
+            //           )
+            //         : SizedBox();
+            //   },
+            // ),
+          ],
+        ),
       ),
     );
   }

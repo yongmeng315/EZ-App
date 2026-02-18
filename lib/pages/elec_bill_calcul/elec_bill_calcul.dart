@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
-import '../utils/general_utils.dart';
-import '../widgets/custom_tff.dart';
+import '../../utils/general_utils.dart';
+import '../../widgets/custom_tff.dart';
 
 class ElecBillCalcul extends StatefulWidget {
   const ElecBillCalcul({super.key});
@@ -167,20 +167,9 @@ class _ElecBillCalculState extends State<ElecBillCalcul> {
                       'Current Meter',
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
-                    Container(
+                    SizedBox(
                       height: 56,
                       width: 160,
-                      decoration: BoxDecoration(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.secondaryContainer.withAlpha(100),
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.secondaryContainer,
-                        ),
-                      ),
                       child: CustomTff(
                         controller: _currentMeterTEC,
                         textInputType: TextInputType.number,
@@ -239,9 +228,7 @@ class _ElecBillCalculState extends State<ElecBillCalcul> {
                           FocusScope.of(context).unfocus();
                         },
                         inputFormatters: [
-                          FilteringTextInputFormatter.allow(
-                            RegExp(r'^\d*\.?\d{0,2}'),
-                          ),
+                          GeneralUtils.allowTwoDecimalPlacesOnly,
                         ],
                       ),
                     ),
@@ -255,20 +242,9 @@ class _ElecBillCalculState extends State<ElecBillCalcul> {
                       'Previous Meter',
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
-                    Container(
+                    SizedBox(
                       height: 56,
                       width: 160,
-                      decoration: BoxDecoration(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.secondaryContainer.withAlpha(100),
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.secondaryContainer,
-                        ),
-                      ),
                       child: CustomTff(
                         controller: _previousMeterTEC,
                         textInputType: TextInputType.number,
@@ -329,9 +305,7 @@ class _ElecBillCalculState extends State<ElecBillCalcul> {
                           FocusScope.of(context).unfocus();
                         },
                         inputFormatters: [
-                          FilteringTextInputFormatter.allow(
-                            RegExp(r'^\d*\.?\d{0,2}'),
-                          ),
+                          GeneralUtils.allowTwoDecimalPlacesOnly,
                         ],
                       ),
                     ),
