@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "604822129198",
+    "project_id": "besthotel-ce019",
+    "storage_bucket": "besthotel-ce019.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:604822129198:android:4ad5c4ddcc98307a2e2dbf",
+        "android_client_info": {
+          "package_name": "com.example.besthotel_guest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCULGEzA7zUPz5I5utHmP_XANajcOFHkAM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:604822129198:android:ca2e43eedb00a2912e2dbf",
+        "android_client_info": {
+          "package_name": "com.example.ezapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCULGEzA7zUPz5I5utHmP_XANajcOFHkAM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
